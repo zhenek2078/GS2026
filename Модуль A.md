@@ -16,7 +16,7 @@ echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 sysctl -p
 ```
 ## NAT
-Динамический NAT (**эта зараза может подвести и отвалиться**):
+Динамический NAT (***эта зараза может подвести и отвалиться***):
 ```
 iptables -t nat -A POSTROUTING -s *NET-INT* -o *ens3* -j MASQUERADE
 ```
