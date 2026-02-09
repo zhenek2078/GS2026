@@ -39,7 +39,7 @@ apt install -y iptables-persistent
 iptables-save > /etc/iptables/rules.v4
 ```
 ## Динамическая маршрутизация
-Ставим пакет **frr**:
+Ставим пакет ***frr***:
 ```
 apt update
 apt install -y frr
@@ -48,7 +48,7 @@ apt install -y frr
 ```
 vtysh
 ```
-После каждой настройки в **conf t** делаем сохранения:
+После каждой настройки в ***conf t*** делаем сохранения:
 ```
 do write
 ```
@@ -122,7 +122,7 @@ do write
 ```
 ## Туннели GRE+IPSec
 ### GRE:
-На "левом" роутере:
+На "***левом***" роутере:
 ```
 nano /etc/network/interfaces
 	auto gre-1
@@ -133,13 +133,13 @@ nano /etc/network/interfaces
 	post-up ip route add *NET-REMOTE-INT* via *IP-REMOTE-TUN*
 	pre-down ip tunnel del *gre-1* mode gre remote *NET-REMOTE-EXT* local *IP-LOCAL-EXT* ttl 255
 ```
-На "правом" роутере делаем зеркальные адреса и маршруты.
+На "***правом***" роутере делаем зеркальные адреса и маршруты.
 ### IPSec:
 Ставим нужный пакет:
 ```
 apt install strongswan
 ```
-На "левом" роутере:
+На "***левом***" роутере:
 ```
 nano /etc/ipsec.conf
 	config setup
@@ -158,13 +158,13 @@ nano /etc/ipsec.conf
 		ike=aes128-sha256-modp3072 - как стороны договариваются о защите: 1 - шифрование данных, 2 - аутентификация и проверка целостности, 3 - для сессионных ключей (modp - диффи-хелман)
 		auto=start
 ```
-На "правом" роутере делаем зеркальные адреса.
+На "***правом***" роутере делаем зеркальные адреса.
 Пишем пассфразу:
 ```
 nano /etc/ipsec.secrets
 	IP-LOCAL-EXT IP-REMOTE-EXT : PSK "Pass"
 ```
-На "правом" опять зеркально.
+На "***правом***" опять зеркально.
 Перезапускаем, проверяем статус:
 ```
 systemctl restart strongswan-starter - перезапуск
@@ -176,7 +176,7 @@ ipsec status - проверяем подключения
 ```
 apt install keepalived
 ```
-На **основном** роутере:
+На ***основном*** роутере:
 ```
 nano /etc/keepalived/keepalived.conf
 	vrrp_instance VI_1 {
@@ -201,7 +201,7 @@ nano /etc/keepalived/keepalived.conf
 	}
 systemctl restart keepalived
 ```
-На **запасном** роутере:
+На ***запасном*** роутере:
 ```
 nano /etc/keepalived/keepalived.conf
 	vrrp_instance VI_1 {
@@ -252,7 +252,7 @@ nano /etc/dhcp/dhcpd.conf:
 sudo systemctl restart isc-dhcp-server
 ```
 ## IPTABLES
-**DROP всегда в конце, иначе все откинет, и ACCEPT не пройдут.**
+***DROP всегда в конце, иначе все откинет, и ACCEPT не пройдут.***
 
 Если политика DROP, то в самом начале надо разрешить ответы:
 ```
