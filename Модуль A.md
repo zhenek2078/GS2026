@@ -124,7 +124,7 @@ nano /etc/network/interfaces
 	pre-down ip tunnel del *gre-1* mode gre remote *NET-REMOTE-EXT* local *IP-LOCAL-EXT* ttl 255
 ```
 На "правом" роутере делаем зеркальные адреса и маршруты.
-### IPSec
+### IPSec:
 Ставим нужный пакет:
 ```
 apt install strongswan
@@ -240,4 +240,49 @@ nano /etc/dhcp/dhcpd.conf:
 	    max-lease-time 7200;
 	}
 sudo systemctl restart isc-dhcp-server
+```
+## IPTABLES
+**DROP всгде в конце, иначе все откинет, и ACCEPT не пройдут.**
+Запретить весь трафик из сети A в сеть B (вместо сети можно указывать только IP, если надо только для одного):
+```
+iptables -A FORWARD -s *NET-A* -d *NET-B* -j DROP
+```
+Запретить только конкретный порт:
+```
+iptables -A FORWARD -s *NET-A* -d *NET-B* -p tcp --dport 22 -j DROP
+```
+Запретить несколько конкретных портов:
+```
+iptables -A FORWARD -s *NET-A* -d *NET-B* -p tcp -m multiport --dports 80,443 -j DROP
+```
+Запретить весь трафик, кроме одного конкретного порта:
+```
+iptables -A FORWARD -s *NET-A* -d *NET-B* -p tcp --dport 22 -j ACCEPT
+iptables -A FORWARD -s *NET-A* -d *NET-B* -j DROP
+```
+Запретить весь трафик, кроме нескольких конкретных портов:
+```
+iptables -A FORWARD -s *NET-A* -d *NET-B* -p tcp -m multiport --dports 80,443 -j ACCEPT
+iptables -A FORWARD -s *NET-A* -d *NET-B* -j DROP
+```
+Запретить только ICMP трафик:
+```
+iptables -A FORWARD -s *NET-A* -d *NET-B* -p icmp -j DROP
+```
+Разрешить только ICMP:
+```
+iptables -A FORWARD -s *NET-A* -d *NET-B* -p icmp -j ACCEPT
+iptables -A FORWARD -s *NET-A* -d *NET-B* -j DROP
+```
+Логирование:
+```
+-j LOG --log-prefix "DROP A->B: "
+```
+Если политика DROP, то в самом начале надо разрешить ответы:
+```
+iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
+```
+Поменять политику:
+```
+iptables -P FORWARD DROP|ACCEPT
 ```
