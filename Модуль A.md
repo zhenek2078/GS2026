@@ -253,6 +253,7 @@ sudo systemctl restart isc-dhcp-server
 ```
 ## IPTABLES
 **DROP всегда в конце, иначе все откинет, и ACCEPT не пройдут.**
+
 Если политика DROP, то в самом начале надо разрешить ответы:
 ```
 iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
