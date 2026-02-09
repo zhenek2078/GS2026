@@ -242,7 +242,7 @@ nano /etc/dhcp/dhcpd.conf:
 sudo systemctl restart isc-dhcp-server
 ```
 ## IPTABLES
-**DROP всгде в конце, иначе все откинет, и ACCEPT не пройдут.**
+**DROP всегда в конце, иначе все откинет, и ACCEPT не пройдут.**
 Запретить весь трафик из сети A в сеть B (вместо сети можно указывать только IP, если надо только для одного):
 ```
 iptables -A FORWARD -s *NET-A* -d *NET-B* -j DROP
