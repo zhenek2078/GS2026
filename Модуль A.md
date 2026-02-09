@@ -253,6 +253,14 @@ sudo systemctl restart isc-dhcp-server
 ```
 ## IPTABLES
 **DROP всегда в конце, иначе все откинет, и ACCEPT не пройдут.**
+Если политика DROP, то в самом начале надо разрешить ответы:
+```
+iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
+```
+Поменять политику:
+```
+iptables -P FORWARD DROP|ACCEPT
+```
 Запретить весь трафик из сети A в сеть B (вместо сети можно указывать только IP, если надо только для одного):
 ```
 iptables -A FORWARD -s *NET-A* -d *NET-B* -j DROP
@@ -287,12 +295,4 @@ iptables -A FORWARD -s *NET-A* -d *NET-B* -j DROP
 Логирование:
 ```
 -j LOG --log-prefix "DROP A->B: "
-```
-Если политика DROP, то в самом начале надо разрешить ответы:
-```
-iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
-```
-Поменять политику:
-```
-iptables -P FORWARD DROP|ACCEPT
 ```
