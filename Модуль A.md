@@ -180,29 +180,33 @@ apt install keepalived
 ### Вариант, если весь трафик идет через один роутер, и когда он отваливается, то через второй:
 На ***основном*** роутере:
 ```
-vrrp_instance VI_GATEWAY {
-	state MASTER
-	interface ens4
-	virtual_router_id 51
-	priority 150
-	advert_int 1
-	virtual_ipaddress {
-		10.15.10.1/24
+nano /etc/keepalived/keepalived.conf
+	vrrp_instance VI_GATEWAY {
+		state MASTER
+		interface ens4
+		virtual_router_id 51
+		priority 150
+		advert_int 1
+		virtual_ipaddress {
+			10.15.10.1/24
+		}
 	}
-}
+systemctl restart keepalived
 ```
 На ***запасном*** роутере:
 ```
-vrrp_instance VI_GATEWAY {
-	state BACKUP
-	interface ens4
-	virtual_router_id 51
-	priority 100
-	advert_int 1
-	virtual_ipaddress {
-		10.15.10.1/24
+nano /etc/keepalived/keepalived.conf
+	vrrp_instance VI_GATEWAY {
+		state BACKUP
+		interface ens4
+		virtual_router_id 51
+		priority 100
+		advert_int 1
+		virtual_ipaddress {
+			10.15.10.1/24
+		}
 	}
-}
+systemctl restart keepalived
 ```
 ### ПОСЛОЖНЕЕ! Вариант, если нагрузка делится на два роутера (через один пакеты идут в одну сеть, через второй - в другую):
 На ***первом*** роутере:
