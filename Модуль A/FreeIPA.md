@@ -1,16 +1,19 @@
 # FreeIPA
 ## Оглавление
 - [Полезные ссылки](#полезные-ссылки)
-- [Установка FreeIPA](#установка-freeipa)
+- [Установка FreeIPA сервер](#установка-freeipa-сервер)
+- [Ввод ПК в домен](#ввод-пк-в-домен)
 - [Группы и пользователи](#группы-и-пользователи)
 - [Парольная политика](#парольная-политика)
 - [Правила HBAC](#правила-hbac)
 ## Полезные ссылки
 ### Все про FreeIPA:
 https://docs.altlinux.org/ru-RU/domain/11.0/html/freeipa/password-policy.html
-### Документация к Astra Linux:
+### Документация к развертыванию DC FreeIPA на Astra Linux:
 https://wiki.astralinux.ru/pages/viewpage.action?pageId=27362143
-## Установка FreeIPA
+### Документация к вводу Astra Linux в домен FreeIPA:
+https://wiki.astralinux.ru/pages/viewpage.action?pageId=60359750
+## Установка FreeIPA сервер
 ### Графика:
 Установка пакета:
 ```
@@ -36,6 +39,33 @@ sudo apt install astra-freeipa-server
 Инициализация домена:
 ```
 sudo astra-freeipa-server -n <короткое_имя_сервера> -d <имя_домена>
+```
+## Ввод ПК в домен
+Прописываем DNS сервер:
+```
+nano /etc/resolv.conf
+  search ipadomain0.ru
+  nameserver <IP-адрес КД>
+  nameserver 77.88.8.8
+sudo systemctl restart networking
+```
+### Графика:
+Ставим пакет:
+```
+sudo apt install fly-admin-freeipa-client
+```
+Ввод в домен:
+В Astra Linux Special Edition 1.8: "Пуск" -> "Параметры" -> "Клиент и сервер"  -> "Настройка FreeIPA клиент Fly".
+В более ранних обновлениях: "Пуск" -> "Панель управления" -> "Сеть"  -> "Настройка FreeIPA клиент Fly".
+Ввести имя домена, логин и пароль администратора домена, нажать "Подключиться".
+### Консоль:
+Ставим пакет:
+```
+sudo apt install astra-freeipa-client
+```
+Ввод в домен:
+```
+sudo astra-freeipa-client -d ipadomain.ru
 ```
 ## Группы и пользователи
 ### Создание групп в домене
