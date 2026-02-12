@@ -40,6 +40,36 @@ sudo apt install astra-freeipa-server
 ```
 sudo astra-freeipa-server -n <короткое_имя_сервера> -d <имя_домена>
 ```
+## Установка центра сертификации
+Подключаем репозиторий:
+```
+echo "deb https://dl.astralinux.ru/astra/frozen/2.12_x86-64/2.12.46/repository stable main contrib non-free" | sudo tee -a /etc/apt/sources.list
+sudo apt update
+```
+Удаляем python-pki:
+```
+sudo dpkg -r --force-depends python-pki
+```
+Устанавливаем dogtag-pki:
+```
+sudo apt install dogtag-pki
+```
+Отключаем подключенный репозиторий и снова обновляем кэш пакетов:
+```
+sudo apt update
+```
+Добавляем ЦС к инициализированному серверу:
+```
+sudo ipa-ca-install
+sudo ipa-kra-install
+sudo ipa-server-upgrade
+```
+Если инициализируем одновременно с dogtag:
+В графическом интерфейсе открываем расширенные настройки и выбираем "Настроить центр сертификации".
+В консоли:
+```
+sudo astra-freeipa-server -o --dogtag
+```
 ## Ввод ПК в домен
 Прописываем DNS сервер:
 ```
