@@ -10,6 +10,7 @@
 ## Полезные ссылки
 ### Все про FreeIPA:
 https://docs.altlinux.org/ru-RU/domain/11.0/html/freeipa/password-policy.html
+https://wiki.astralinux.ru/pages/viewpage.action?pageId=181666063
 ### Документация к развертыванию DC FreeIPA на Astra Linux:
 https://wiki.astralinux.ru/pages/viewpage.action?pageId=27362143
 ### Документация к вводу Astra Linux в домен FreeIPA:
