@@ -82,3 +82,29 @@ docker-compose up -d
 docker-compose down
 docker-compose up -d --build
 ```
+
+# docker logs
+
+Смотрим ID контейнера:
+
+```
+docker ps
+```
+
+Смотрим логи:
+
+```
+docker logs <container_name_or_id>
+```
+
+Логи в реальном времени:
+
+```
+docker logs -f nginx
+```
+
+Логи с таймштампами:
+
+```
+docker logs -t nginx
+```
