@@ -1,5 +1,7 @@
 # docker compose
 
+Выполняем в директории, где лежит docker-compose.yml.
+
 ## build
 
 ### Просто собрать
@@ -15,8 +17,6 @@ docker compose up -d --build
 ```
 
 ## rebuild
-
-Выполняем в директории, где лежит docker-compose.yml.
 
 ### Просто пересобрать контейнер
 
